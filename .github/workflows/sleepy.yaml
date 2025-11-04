@@ -1,0 +1,25 @@
+name: sleepy
+description: this workflow is kinda slow, and might fail
+
+on:
+  workflow_dispatch:
+    inputs:
+      should_fail:
+        required: true
+        type: boolean
+  workflow_call:
+    inputs:
+      should_fail:
+        required: true
+        type: boolean
+
+jobs:
+  sleepy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: sleep
+        run: sleep 120
+      - name: maybe fail
+        if: ${{ inputs.should_fail }}
+        run: exit 1
+
