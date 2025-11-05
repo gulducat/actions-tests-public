@@ -1,17 +1,25 @@
 name: sleepy
 description: this workflow is kinda slow, and might fail
 
+run-name: sleepy ${{ inputs.unique_id }}
+
 on:
   workflow_dispatch:
     inputs:
-      should_fail:
+      unique_id:
+        type: string
         required: true
+      should_fail:
         type: boolean
+        required: true
   workflow_call:
     inputs:
-      should_fail:
+      unique_id:
+        type: string
         required: true
+      should_fail:
         type: boolean
+        required: true
 
 jobs:
   sleepy:
