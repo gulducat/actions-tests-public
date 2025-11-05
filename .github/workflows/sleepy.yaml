@@ -14,9 +14,6 @@ on:
         required: true
   workflow_call:
     inputs:
-      unique_id:
-        type: string
-        required: true
       should_fail:
         type: boolean
         required: true
