@@ -29,7 +29,7 @@ jobs:
       - name: check repo
         run: cat repo
       - name: sleep
-        run: sleep 120
+        run: sleep 30
       - name: maybe fail
         if: ${{ inputs.should_fail }}
         run: exit 1
