@@ -17,6 +17,9 @@ jobs:
   sleepy:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v5
+      - name: check repo
+        run: cat repo
       - name: sleep
         run: sleep 120
       - name: maybe fail
