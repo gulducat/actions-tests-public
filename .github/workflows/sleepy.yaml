@@ -37,10 +37,18 @@ jobs:
     if: ${{ inputs.source_branch != '' }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - name: checkout with token
+        if: ${{ secrets.gh_token != '' }}
+        uses: actions/checkout@v5
         with:
           repository: ${{ inputs.repo }}
           token: ${{ secrets.gh_token }}
+      - name: checkout without token
+        if: ${{ secrets.gh_token == '' }}
+        uses: actions/checkout@v5
+        with:
+          repository: ${{ inputs.repo }}
+
       - name: check repo
         run: cat repo
       - name: branches
