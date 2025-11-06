@@ -11,7 +11,8 @@ on:
         required: true
       should_fail:
         type: boolean
-        required: true
+        required: false
+        default: false
   workflow_call:
     inputs:
       repo:
