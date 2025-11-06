@@ -32,12 +32,14 @@ on:
         type: string
         required: true
     outputs:
-      version: ${{ steps.branches.outputs.dest }}
+      version: ${{ jobs.sleepy.outputs.dest }}
 
 jobs:
   sleepy:
     if: ${{ inputs.source_branch != '' }}
     runs-on: ubuntu-latest
+    outputs:
+      dest: ${{ steps.branches.outputs.dest }}
     steps:
       - uses: actions/checkout@v5
         with:
