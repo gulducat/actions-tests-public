@@ -18,6 +18,14 @@ on:
         type: string
       should_fail:
         type: boolean
+        required: false
+        default: false
+      # TODO: validate these
+      source_branch:
+        type: string
+        required: true
+      dest_branch:
+        type: string
         required: true
 
 jobs:
@@ -29,6 +37,9 @@ jobs:
           repository: ${{ inputs.repo }}
       - name: check repo
         run: cat repo
+      - name: branches
+        if: ${{ inputs.source_branch != '' }}
+        run: echo "source: ${{ inputs.source_branch }}; dest: ${{ inputs.dest_branch }}"
       - name: sleep
         run: sleep 30
       - name: maybe fail
