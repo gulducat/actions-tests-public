@@ -40,7 +40,9 @@ jobs:
       - name: check repo
         run: cat repo
       - name: branches
-        run: echo "source: ${{ inputs.source_branch }}; dest: ${{ inputs.dest_branch }}"
+        run: |-
+          echo "source: ${{ inputs.source_branch }}"
+          echo "dest: ${{ inputs.dest_branch }}"
       - name: sleep
         run: sleep 30
       - name: maybe fail
