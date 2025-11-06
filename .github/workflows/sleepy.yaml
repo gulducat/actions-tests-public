@@ -31,6 +31,8 @@ on:
       dest_branch:
         type: string
         required: true
+    outputs:
+      version: ${{ inputs.dest_branch }}
 
 jobs:
   sleepy:
