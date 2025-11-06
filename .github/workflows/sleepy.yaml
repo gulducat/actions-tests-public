@@ -32,7 +32,9 @@ on:
         type: string
         required: true
     outputs:
-      version: ${{ jobs.sleepy.outputs.dest }}
+      version:
+        description: 'destination branch, regurgitated'
+        value: ${{ jobs.sleepy.outputs.dest }}
 
 jobs:
   sleepy:
