@@ -55,8 +55,14 @@ jobs:
           echo "source: ${{ inputs.source_branch }}"
           echo "dest: ${{ inputs.dest_branch }}"
           echo "dest=${{ inputs.dest_branch }}" >> "$GITHUB_OUTPUT"
+      - name: upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: sleepy-${{ inputs.source_branch }}
+          path: ./repo
+          compression-level: 0
       - name: sleep
-        run: sleep 30
+        run: sleep 10
       - name: maybe fail
         if: ${{ inputs.should_fail }}
         run: exit 1
