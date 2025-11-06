@@ -32,7 +32,7 @@ on:
         type: string
         required: true
     outputs:
-      version: ${{ inputs.dest_branch }}
+      version: ${{ steps.branches.outputs.dest }}
 
 jobs:
   sleepy:
@@ -46,9 +46,11 @@ jobs:
       - name: check repo
         run: cat repo
       - name: branches
+        id: branches
         run: |-
           echo "source: ${{ inputs.source_branch }}"
           echo "dest: ${{ inputs.dest_branch }}"
+          echo "dest=${{ inputs.dest_branch }}" >> "$GITHUB_OUTPUT"
       - name: sleep
         run: sleep 30
       - name: maybe fail
