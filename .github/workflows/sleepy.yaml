@@ -30,6 +30,7 @@ on:
 
 jobs:
   sleepy:
+    if: ${{ inputs.source_branch != '' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
@@ -38,7 +39,6 @@ jobs:
       - name: check repo
         run: cat repo
       - name: branches
-        if: ${{ inputs.source_branch != '' }}
         run: echo "source: ${{ inputs.source_branch }}; dest: ${{ inputs.dest_branch }}"
       - name: sleep
         run: sleep 30
