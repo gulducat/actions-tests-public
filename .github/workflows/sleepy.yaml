@@ -53,12 +53,14 @@ jobs:
       - name: check repo
         run: cat repo
       - name: branches
+        if: ${{ inputs.dest_branch != '' }}
         id: branches
         run: |-
           echo "source: ${{ inputs.source_branch }}"
           echo "dest: ${{ inputs.dest_branch }}"
           echo "dest=${{ inputs.dest_branch }}" >> "$GITHUB_OUTPUT"
       - name: set up artifact
+        if: ${{ inputs.dest_branch != '' }}
         id: art
         # artifact names can't have '/' in them,
         # and our release branches have 'release/' on the front
@@ -68,6 +70,7 @@ jobs:
           echo "$(cat repo) : ${{ inputs.repo }} - ${{ inputs.source_branch }} - ${{ inputs.dest_branch }} - ${{ inputs.prev_version}}" > "$f"
           echo "name=$f" >> "$GITHUB_OUTPUT"
       - name: upload artifact
+        if: ${{ inputs.dest_branch != '' }}
         uses: actions/upload-artifact@v4
         with:
           name: sleepy-${{ steps.art.outputs.name }}
