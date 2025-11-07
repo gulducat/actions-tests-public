@@ -55,10 +55,17 @@ jobs:
           echo "source: ${{ inputs.source_branch }}"
           echo "dest: ${{ inputs.dest_branch }}"
           echo "dest=${{ inputs.dest_branch }}" >> "$GITHUB_OUTPUT"
+      - name: set artifact name
+        id: art
+        # artifact names can't have '/' in them,
+        # and our release branches have 'release/' on the front
+        # Invalid characters include:  Double quote ", Colon :, Less than <, Greater than >, Vertical bar |, Asterisk *, Question mark ?, Carriage return \r, Line feed \n, Backslash \, Forward slash /
+        run: |-
+          echo "name=sleepy-$(sed 's~release/~~g' <<< '${{ inputs.dest_branch }}')" >> "$GITHUB_OUTPUT"
       - name: upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: sleepy-${{ inputs.source_branch }}
+          name: ${{ steps.art.outputs.name }}
           path: ./repo
           compression-level: 0
       - name: sleep
