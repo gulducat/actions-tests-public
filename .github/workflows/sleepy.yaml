@@ -13,9 +13,6 @@ on:
         type: boolean
         required: false
         default: false
-    outputs:
-      repo:
-        value: ${{ jobs.sleepy.outputs.repo }}
 
   workflow_call:
     secrets:
@@ -45,7 +42,6 @@ on:
 
 jobs:
   sleepy:
-    if: ${{ inputs.source_branch != '' }}
     runs-on: ubuntu-latest
     outputs:
       repo: ${{ steps.repo.outputs.repo }}
