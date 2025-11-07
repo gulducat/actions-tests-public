@@ -13,6 +13,10 @@ on:
         type: boolean
         required: false
         default: false
+    outputs:
+      repo:
+        value: ${{ jobs.sleepy.outputs.repo }}
+
   workflow_call:
     secrets:
       gh_token:
@@ -44,6 +48,7 @@ jobs:
     if: ${{ inputs.source_branch != '' }}
     runs-on: ubuntu-latest
     outputs:
+      repo: ${{ steps.repo.outputs.repo }}
       dest: ${{ steps.branches.outputs.dest }}
     steps:
       - uses: actions/checkout@v5
@@ -51,7 +56,10 @@ jobs:
           repository: ${{ inputs.repo }}
           token: ${{ secrets.gh_token }}
       - name: check repo
-        run: cat repo
+        id: repo
+        run: |-
+          cat repo
+          echo "repo=$(cat repo)" >> "$GITHUB_OUTPUT"
       - name: branches
         if: ${{ inputs.dest_branch != '' }}
         id: branches
