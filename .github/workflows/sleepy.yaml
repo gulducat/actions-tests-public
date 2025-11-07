@@ -31,6 +31,9 @@ on:
       dest_branch:
         type: string
         required: true
+      prev_version: # previous version, to create a changelog from
+        type: string
+        required: false
     outputs:
       version:
         description: 'destination branch, regurgitated'
@@ -55,18 +58,20 @@ jobs:
           echo "source: ${{ inputs.source_branch }}"
           echo "dest: ${{ inputs.dest_branch }}"
           echo "dest=${{ inputs.dest_branch }}" >> "$GITHUB_OUTPUT"
-      - name: set artifact name
+      - name: set up artifact
         id: art
         # artifact names can't have '/' in them,
         # and our release branches have 'release/' on the front
         # Invalid characters include:  Double quote ", Colon :, Less than <, Greater than >, Vertical bar |, Asterisk *, Question mark ?, Carriage return \r, Line feed \n, Backslash \, Forward slash /
         run: |-
-          echo "name=sleepy-$(sed 's~release/~~g' <<< '${{ inputs.dest_branch }}')" >> "$GITHUB_OUTPUT"
+          f="$(sed 's~release/~~g' <<< '${{ inputs.dest_branch }}')"
+          echo "$(cat repo) : ${{ inputs.repo }} - ${{ inputs.source_branch }} - ${{ inputs.dest_branch }} - ${{ inputs.prev_version}}" > "$f"
+          echo "name=$f" >> "$GITHUB_OUTPUT"
       - name: upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ steps.art.outputs.name }}
-          path: ./repo
+          name: sleepy-${{ steps.art.outputs.name }}
+          path: ${{ steps.art.outputs.name }}
           compression-level: 0
       - name: sleep
         run: sleep 10
