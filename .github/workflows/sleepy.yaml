@@ -44,19 +44,19 @@ jobs:
   sleepy:
     runs-on: ubuntu-latest
     outputs:
-      repo: ${{ steps.repo.outputs.repo }}
       dest: ${{ steps.branches.outputs.dest }}
     steps:
       - uses: actions/checkout@v5
         with:
           repository: ${{ inputs.repo }}
           token: ${{ secrets.gh_token || github.token }}
-
       - name: check repo
-        id: repo
-        run: |-
-          cat repo
-          echo "repo=$(cat repo)" >> "$GITHUB_OUTPUT"
+        run: cat repo
+
+      - name: maybe fail
+        if: ${{ inputs.should_fail }}
+        run: exit 1
+
       - name: branches
         if: ${{ inputs.dest_branch != '' }}
         id: branches
@@ -83,7 +83,4 @@ jobs:
           compression-level: 0
       - name: sleep
         run: sleep 10
-      - name: maybe fail
-        if: ${{ inputs.should_fail }}
-        run: exit 1
 
